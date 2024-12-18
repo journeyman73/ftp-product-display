@@ -2,6 +2,8 @@
 
 namespace FtpProductDisplay;
 
+use WP_Query;
+
 class Blocks
 {
     /**
@@ -83,6 +85,23 @@ class Blocks
 
 	public function productDisplayBlockRender()
 	{
+		if (class_exists('woocommerce')) {
 
+			$args = array(
+				'post_type'      => 'product',
+				'posts_per_page' => -1,
+			);
+
+			$loop = new WP_Query( $args );
+
+			ob_start();
+			
+			while ( $loop->have_posts() ) : $loop->the_post();
+				global $product;
+				echo '<br /><a href="'.get_permalink().'">' . woocommerce_get_product_thumbnail().' '.get_the_title().'</a>';
+			endwhile;
+
+			return ob_get_clean();
+		}
 	}
 }
