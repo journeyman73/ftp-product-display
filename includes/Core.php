@@ -73,6 +73,7 @@ class Core
         $this->slug = 'ftp-product-display';
         $this->loadDependencies();
         $this->setLocale();
+        $this->defineBlockHooks();
     }
 
     /**
@@ -98,6 +99,12 @@ class Core
          */
         require_once plugin_dir_path(dirname(__FILE__)) . 'includes/Locale.php';
 
+        /**
+         * The class responsible for defining all actions that occur in the block
+         * side of the site.
+         */
+        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/Blocks.php';
+
         $this->loader = new Loader();
     }
 
@@ -116,6 +123,22 @@ class Core
         $plugin_i18n = new Locale();
 
         $this->loader->addAction('plugins_loaded', $plugin_i18n, 'loadPluginTextDomain');
+    }
+
+    /**
+     * Register all of the hooks related to the block functionality
+     * of the plugin.
+     *
+     * @since    1.0.0
+     * @access   private
+     */
+    private function defineBlockHooks()
+    {
+
+        $plugin_blocks = new Blocks($this->getPluginName(), $this->getVersion(), $this->getSlug());
+
+        $this->loader->addAction('init', $plugin_blocks, 'registerBlocks');
+        $this->loader->addAction('enqueue_block_editor_assets', $plugin_blocks, 'registerAssets');
     }
 
     /**
