@@ -1,10 +1,10 @@
-.wp-block-ftp-product-display-address-block:after {
+.wp-block-ftp-product-display-products:after {
     content:"";
     clear:both;
     display: table;
 }
 
-.wp-block-ftp-product-display-address-block .placeholder-block {
+.wp-block-ftp-product-display-products .placeholder-block {
     border: 1px solid #32373c;
     padding-right: 10px;
     padding-left: 10px;
