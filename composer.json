@@ -1,0 +1,7 @@
+{
+  "name": "FtpProductDisplay/ftp-product-display",
+  "type": "wordpress-plugin",
+  "require": {
+    "composer/installers": "^1.8"
+  }
+}
