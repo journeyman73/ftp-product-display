@@ -83,25 +83,29 @@ class Blocks
         );
     }
 
-	public function productDisplayBlockRender()
-	{
-		if (class_exists('woocommerce')) {
+    public function productDisplayBlockRender()
+    {
+        if (class_exists('woocommerce')) {
+            $args = array(
+                'post_type'      => 'product',
+                'posts_per_page' => -1,
+                'orderby' => 'menu_order',
+                'order' => 'ASC',
+            );
 
-			$args = array(
-				'post_type'      => 'product',
-				'posts_per_page' => -1,
-			);
+            $loop = new WP_Query($args);
 
-			$loop = new WP_Query( $args );
-
-			ob_start();
-			
-			while ( $loop->have_posts() ) : $loop->the_post();
-				global $product;
-				echo '<br /><a href="'.get_permalink().'">' . woocommerce_get_product_thumbnail().' '.get_the_title().'</a>';
-			endwhile;
-
-			return ob_get_clean();
-		}
-	}
+            ob_start(); ?>
+            <ul class="products columns-3">
+	            <?php
+	                while ($loop->have_posts()) :
+	                    $loop->the_post();
+	                    wc_get_template_part('content', 'product');
+	                endwhile;
+	                wp_reset_query();
+	            ?>
+            </ul>
+            <?php return ob_get_clean();
+        }
+    }
 }
