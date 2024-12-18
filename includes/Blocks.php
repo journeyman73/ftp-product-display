@@ -45,4 +45,44 @@ class Blocks
         $this->version = $version;
         $this->slug = $slug;
     }
+
+    public function registerBlocks()
+    {
+        register_block_type(
+            $this->plugin_name . '/products',
+            array(
+                'style' => $this->plugin_name . '-style',
+                'editor_script' => $this->plugin_name . '-script',
+                'render_callback' => array( $this, 'productDisplayBlockRender' )
+            )
+        );
+    }
+
+    public function registerAssets()
+    {
+        wp_register_style(
+            $this->plugin_name . '-style',
+            plugin_dir_url(__DIR__) . 'blocks/css/productDisplayBlock.css',
+            array(),
+            $this->version
+        );
+
+        wp_register_script(
+            $this->plugin_name . '-script',
+            plugin_dir_url(__DIR__) .  'blocks/js/productDisplayBlock.js',
+            array(
+                'wp-blocks',
+                'wp-i18n',
+                'wp-element',
+                'wp-editor',
+                'underscore'
+            ),
+            $this->version
+        );
+    }
+
+	public function productDisplayBlockRender()
+	{
+
+	}
 }
